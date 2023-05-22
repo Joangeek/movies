@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
+import { apiResponse } from '../interfaces/apiResponse';
+import { Movie } from '../interfaces/movies';
 
 
 @Injectable({
@@ -7,12 +10,16 @@ import { Injectable } from '@angular/core';
 })
 export class MovieService {
 
-  API_URL: string ='http://www.omdbapi.com/?apikey=b5aad589';
+  private API_URL: string ='http://www.omdbapi.com/?apikey=b5aad589';
 
 
   constructor(private http: HttpClient) { }
 
-  getMovies(searchTerm: string){
-    this.http.get(this.API_URL + '&s='+ searchTerm);
+  getMovies(searchTerm: string):Observable<Movie[]>{
+    return this.http.get<apiResponse>(this.API_URL + '&s='+ searchTerm).pipe(
+      map(response => {
+        return response.Search;
+      })
+    );
   }
 }
