@@ -3,7 +3,7 @@
   <div class="search">
     <input type="text" #movieSearchInput placeholder="Buscar película" />
   </div>
-  <div *ngIf="movies.length > 0; else empty" class="container">
+  <div *ngIf="movies$ | async as movies; else empty" class="container">
     <app-card-movie
       *ngFor="let movie of movies"
       [movie]="movie"
